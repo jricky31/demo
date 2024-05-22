@@ -20,7 +20,7 @@ jobs:
         id: prsecret
         run: echo "secret for repo ${{ secrets.R_MY_SECRET }}"        
       - name: Print variable env
-        id: prvar
+        id: penvvar
         run: echo "var for repo ${{ env.MY_VARIABLE }}"        
       - name: Print variable for repo
         id: prvar
