@@ -13,3 +13,15 @@ jobs:
       - name: Print PR description
         id: check
         run: echo "PR description ${{ github.event.pull_request.body }}"
+      - name: Print secret
+        id: pesecret
+        run: echo "secret for dev environment ${{ secrets.MY_SECRET }}"        
+      - name: Print repo secret
+        id: prsecret
+        run: echo "secret for repo ${{ secrets.R_MY_SECRET }}"        
+      - name: Print variable env
+        id: prvar
+        run: echo "var for repo ${{ env.MY_VARIABLE }}"        
+      - name: Print variable for repo
+        id: prvar
+        run: echo "var for repo ${{ env.R_MY_VAR }}"        
