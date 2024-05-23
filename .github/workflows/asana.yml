@@ -10,10 +10,10 @@ env:
 
 jobs:
   update-section-in-staging:
+    if: github.event.pull_request.merged == true && !startsWith(github.event.pull_request.title, 'Revert')
     runs-on: ubuntu-latest
     steps:
       - name: Run job
-        if: github.event.pull_request.merged == 'true' && !startsWith(github.event.pull_request.title, 'Revert')
         continue-on-error: true
         env:
           PR_DESCRIPTION: ${{ github.event.pull_request.body }}        
