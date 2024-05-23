@@ -2,10 +2,7 @@ name: Update Asana task on PR merge
 on:
   pull_request:
     types:
-      - opened
-      - ready_for_review
       - closed
-      - reopened
   
 env:
   ASANA_APP_URL: "https://app.asana.com"
@@ -15,7 +12,8 @@ jobs:
   update-section-in-staging:
     runs-on: ubuntu-latest
     steps:
-      - name: Invoke API
+      - name: Run job
+        if: github.event.pull_request.merged == 'true' && !startsWith(toLower(github.event.pull_request.title), 'revert')
         continue-on-error: true
         env:
           PR_DESCRIPTION: ${{ github.event.pull_request.body }}        
