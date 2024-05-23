@@ -8,6 +8,7 @@ on:
       - reopened
   
 env:
+  ASANA_APP_URL: "https://app.asana.com"
   ASANA_GOPHERS_SECTION_IN_STAGING: "1207386778091330"
 
 jobs:
@@ -22,12 +23,13 @@ jobs:
           echo "processing description:"
           echo "${PR_DESCRIPTION}"
           # extract the task id from the PR description, this is a best effort and may fail
-          # if the footer of the description is not formatted according to https://asana.com/apps/github
+          # if the footer of the description is not formatted according to https://asana.com/apps/github,
+          # that is: https://app.asana.com/0/<projectID>/<taskId>
           # TODO: add support for multiple tasks in the same PR description
-          ASANA_TASK_ID=$(echo "${PR_DESCRIPTION}" | awk -F"/" '{print $NF}')
+          ASANA_TASK_ID=$(echo "${PR_DESCRIPTION}" | grep ${{ env.ASANA_APP_URL }} | awk -F"/" '{print $NF}')
           echo "Updating task with id ${ASANA_TASK_ID} to In Staging"
           curl -s --request POST \
-               --url https://app.asana.com/api/1.0/sections/${{ env.ASANA_GOPHERS_SECTION_IN_STAGING }}/addTask \
+               --url ${{ env.ASANA_APP_URL }}/api/1.0/sections/${{ env.ASANA_GOPHERS_SECTION_IN_STAGING }}/addTask \
                --header 'accept: application/json' \
                --header 'authorization: Bearer '${{ secrets.ASANA_TOKEN }} \
                --header 'content-type: application/json' \
