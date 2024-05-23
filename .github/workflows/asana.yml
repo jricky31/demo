@@ -24,7 +24,7 @@ jobs:
         run: echo "secret for repo ${{ env.ASANA_GOPHERS_SECTION_CODE_REVIEW }}"            
       - name: call asana api
         run: |
-          npm install
+          echo "Invoking Asana API"
           curl --request POST \
                --url https://app.asana.com/api/1.0/sections/$ASANA_GOPHERS_SECTION_CODE_REVIEW/addTask \
                --header 'accept: application/json' \
