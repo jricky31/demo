@@ -7,7 +7,8 @@ on:
 
 env:
   ASANA_GOPHERS_SECTION_CODE_REVIEW: "1207386778091330"
-  R_MY_SECRET: ${{ secrets.ASANA_TOKEN }}
+  ASANA_TASK_ID: "1207386778091342"
+  
 
 jobs:
   transition-section:
@@ -25,9 +26,9 @@ jobs:
       - name: call asana api
         run: |
           echo "Invoking Asana API"
-          curl --request POST \
+          curl -s --request POST \
                --url https://app.asana.com/api/1.0/sections/$ASANA_GOPHERS_SECTION_CODE_REVIEW/addTask \
                --header 'accept: application/json' \
                --header 'authorization: Bearer '${{ secrets.ASANA_TOKEN }} \
                --header 'content-type: application/json' \
-               --data '{ "data": {"task": "1207386778091342"} }'
+               --data '{ "data": {"task": "'${{ env.ASANA_TASK_ID }}'"} }'
