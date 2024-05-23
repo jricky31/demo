@@ -5,6 +5,10 @@ on:
       - opened
       - closed
 
+env:
+  MY_SECRET: ${{ secrets.MY_SECRET }}
+  R_MY_SECRET: ${{ secrets.R_MY_SECRET }}
+  MY_VARIABLE: ${{ env.MY_VARIABLE }}
 
 jobs:
   transition-section:
@@ -21,7 +25,7 @@ jobs:
         run: echo "secret for repo ${{ secrets.R_MY_SECRET }}"        
       - name: Print variable env
         id: penvvar
-        run: echo "var for repo ${{ env.MY_VARIABLE }}"        
+        run: echo "var for env ${{ env.MY_VARIABLE }}"        
       - name: Print variable for repo
         id: prvar
-        run: echo "var for repo ${{ env.R_MY_VAR }}"        
+        run: echo "var for repo ${R_MY_VAR}"        
