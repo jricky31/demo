@@ -1,12 +1,15 @@
-name: Update Asana task on PR merge
+name: Update section for Asana task on PR merge
 on:
   pull_request:
     types:
       - closed
   
 env:
+  # the host for the Asana API 
   ASANA_APP_URL: "https://app.asana.com"
-  ASANA_GOPHERS_SECTION_IN_STAGING: "1207386778091330"
+  # the id of the section "In Staging" for the Gophers project
+  # see https://developers.asana.com/reference/getsectionsforproject
+  ASANA_GOPHERS_SECTION_IN_STAGING: "1202489779121909"
 
 jobs:
   update-section-in-staging:
