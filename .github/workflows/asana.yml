@@ -3,31 +3,31 @@ on:
   pull_request:
     types:
       - opened
+      - ready_for_review
       - closed
-
-env:
-  ASANA_GOPHERS_SECTION_CODE_REVIEW: "1207386778091330"
-  ASANA_TASK_ID: "1207386778091342"
+      - reopened
   
+env:
+  ASANA_GOPHERS_SECTION_IN_STAGING: "1207386778091330"
 
 jobs:
-  transition-section:
+  update-section-in-staging:
     runs-on: ubuntu-latest
     steps:
-      - name: Print PR description
-        id: check
-        run: echo "PR description ${{ github.event.pull_request.body }}"
-      - name: Print var
-        id: pesecret
-        run: echo "secret for  environment $ASANA_GOPHERS_SECTION_CODE_REVIEW"        
-      - name: Print var using env.
-        id: prsecret
-        run: echo "secret for repo ${{ env.ASANA_GOPHERS_SECTION_CODE_REVIEW }}"            
-      - name: call asana api
+      - name: Extract PR description
+        id: extract
+        run: echo "::set-output name=description::${{ github.event.pull_request.body }}"
+      - name: Invoke API
+        continue-on-error: true
         run: |
-          echo "Invoking Asana API"
+          PR_DESCRIPTION="${{ steps.extract.outputs.description }}"
+          # extract the task id from the PR description, this is a best effort and may fail
+          # if the footer of the description is not formatted according to https://asana.com/apps/github
+          # TODO: add support for multiple tasks in the same PR description
+          ASANA_TASK_ID=$(echo $PR_DESCRIPTION | awk -F"/" '{print $NF}')
+          echo "Updating task with id ${ASANA_TASK_ID} to In Staging"
           curl -s --request POST \
-               --url https://app.asana.com/api/1.0/sections/${{ env.ASANA_GOPHERS_SECTION_CODE_REVIEW }}/addTask \
+               --url https://app.asana.com/api/1.0/sections/${{ env.ASANA_GOPHERS_SECTION_IN_STAGING }}/addTask \
                --header 'accept: application/json' \
                --header 'authorization: Bearer '${{ secrets.ASANA_TOKEN }} \
                --header 'content-type: application/json' \
