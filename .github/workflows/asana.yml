@@ -37,4 +37,5 @@ jobs:
                  echo "error updating task with id ${ASANA_TASK_ID}"
                  return 1
                }
-           echo "Successfully updated task with id ${ASANA_TASK_ID}"
+    
+           echo -e "\nSuccessfully updated task with id ${ASANA_TASK_ID}"
