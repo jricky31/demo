@@ -20,9 +20,7 @@ jobs:
         env:
           PR_DESCRIPTION: ${{ github.event.pull_request.body }}        
         run: |
-          echo "processing description:"
-          echo "${PR_DESCRIPTION}"
-          # extract the task id from the PR description, this is a best effort and may fail
+          # this is a best effort to extract the task id from the PR description and may fail
           # if the footer of the description is not formatted according to https://asana.com/apps/github,
           # that is: https://app.asana.com/0/<projectID>/<taskId>
           # TODO: add support for multiple tasks in the same PR description
