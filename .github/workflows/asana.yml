@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "Invoking Asana API"
           curl -s --request POST \
-               --url https://app.asana.com/api/1.0/sections/$ASANA_GOPHERS_SECTION_CODE_REVIEW/addTask \
+               --url https://app.asana.com/api/1.0/sections/${{ env.ASANA_GOPHERS_SECTION_CODE_REVIEW }}/addTask \
                --header 'accept: application/json' \
                --header 'authorization: Bearer '${{ secrets.ASANA_TOKEN }} \
                --header 'content-type: application/json' \
