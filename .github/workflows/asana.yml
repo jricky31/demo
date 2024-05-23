@@ -33,9 +33,6 @@ jobs:
                --header 'accept: application/json' \
                --header 'authorization: Bearer '${{ secrets.ASANA_TOKEN }} \
                --header 'content-type: application/json' \
-               --data '{ "data": {"task": "'${ASANA_TASK_ID}'"} }' || {
-                 echo "error updating task with id ${ASANA_TASK_ID}"
-                 return 1
-               }
-    
+               --data '{ "data": {"task": "'${ASANA_TASK_ID}'"} }' \
+               || { echo "error updating task with id ${ASANA_TASK_ID}"; return 1}    
            echo -e "\nSuccessfully updated task with id ${ASANA_TASK_ID}"
